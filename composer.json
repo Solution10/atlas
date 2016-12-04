@@ -1,0 +1,32 @@
+{
+    "name": "solution10/atlas",
+    "description": "Data mapper. Like an ORM, but not.",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Gisby",
+            "email": "alex@solution10.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "solution10/managed-instance": "^1.0",
+        "solution10/collection": "^1.0",
+        "solution10/sql": "^1.3",
+        "doctrine/cache": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Solution10\\Atlas\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Solution10\\Atlas\\Tests\\": "tests/"
+        }
+    }
+}
