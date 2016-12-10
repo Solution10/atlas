@@ -116,7 +116,14 @@ class Results implements \Countable, \Iterator, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->built[$offset] = $value;
+        if (is_array($value)) {
+            $this->results[$offset] = $value;
+
+            // Unset the corresponding built object to handle overwrites correctly.
+            unset($this->built[$offset]);
+        } else {
+            $this->built[$offset] = $value;
+        }
     }
 
     /**
@@ -138,7 +145,7 @@ class Results implements \Countable, \Iterator, \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        if (!array_key_exists($offset, $this->results)) {
+        if (!array_key_exists($offset, $this->results) && !array_key_exists($offset, $this->built)) {
             return null;
         }
 
