@@ -39,6 +39,8 @@ trait HasTimestamps
             } else {
                 $this->createdAt = new \DateTime($created);
             }
+        } elseif ($created instanceof \DateTime) {
+            $this->createdAt = $created;
         }
         return $this;
     }
@@ -68,6 +70,8 @@ trait HasTimestamps
             } else {
                 $this->updatedAt = new \DateTime($updated);
             }
+        } elseif ($updated instanceof \DateTime) {
+            $this->updatedAt = $updated;
         }
         return $this;
     }
@@ -75,7 +79,7 @@ trait HasTimestamps
     /**
      * Returns the time at which this model was updated in the datastore.
      *
-     * @return  \DateTime
+     * @return  \DateTime|null
      */
     public function getUpdated()
     {
