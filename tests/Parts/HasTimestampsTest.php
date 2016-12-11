@@ -41,6 +41,16 @@ class HasTimestampsTest extends TestCase
         $this->assertEquals('2016-12-06T07:47:27+01:00', $t->getCreated()->format('c'));
     }
 
+    public function testIntegerSetCreated()
+    {
+        $t = $this->getTrait();
+        $created = strtotime('2016-12-06 07:47:27 +01:00');
+
+        $t->setCreated($created);
+        $this->assertInstanceOf(\DateTime::class, $t->getCreated());
+        $this->assertEquals('2016-12-06T06:47:27+00:00', $t->getCreated()->format('c'));
+    }
+
     public function testBasicSetGetUpdated()
     {
         $t = $this->getTrait();
@@ -48,5 +58,25 @@ class HasTimestampsTest extends TestCase
 
         $this->assertEquals($t, $t->setUpdated($dt));
         $this->assertEquals($dt, $t->getUpdated());
+    }
+
+    public function testStringSetUpdated()
+    {
+        $t = $this->getTrait();
+        $updated = '2016-12-06 07:47:27 +01:00';
+
+        $t->setUpdated($updated);
+        $this->assertInstanceOf(\DateTime::class, $t->getUpdated());
+        $this->assertEquals('2016-12-06T07:47:27+01:00', $t->getUpdated()->format('c'));
+    }
+
+    public function testIntegerSetUpdated()
+    {
+        $t = $this->getTrait();
+        $updated = strtotime('2016-12-06 07:47:27 +01:00');
+
+        $t->setUpdated($updated);
+        $this->assertInstanceOf(\DateTime::class, $t->getUpdated());
+        $this->assertEquals('2016-12-06T06:47:27+00:00', $t->getUpdated()->format('c'));
     }
 }
