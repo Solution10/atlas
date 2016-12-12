@@ -2,6 +2,7 @@
 
 namespace Solution10\Atlas\Tests\Database;
 
+use Solution10\Atlas\Database\Connection;
 use Solution10\Atlas\Database\Select;
 use Solution10\Atlas\PHPUnit\GetMockedMapper;
 use Solution10\Atlas\PHPUnit\TestCase;
@@ -19,6 +20,16 @@ class SelectTest extends TestCase
         $this->assertNull($s->getMapper());
         $this->assertEquals($s, $s->setMapper($mapper));
         $this->assertEquals($mapper, $s->getMapper());
+    }
+
+    public function testSetGetCacheLength()
+    {
+        $s = new Select();
+        $this->assertEquals(Connection::CACHE_NEVER, $s->getCacheLength());
+        $this->assertEquals($s, $s->setCacheLength(27));
+        $this->assertEquals(27, $s->getCacheLength());
+        $this->assertEquals($s, $s->setCacheLength(Connection::CACHE_FOREVER));
+        $this->assertEquals(Connection::CACHE_FOREVER, $s->getCacheLength());
     }
 
     /**

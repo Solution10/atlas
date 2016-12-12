@@ -2,8 +2,10 @@
 
 namespace Solution10\Atlas\Tests\Database;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Solution10\Atlas\CRUD;
 use Solution10\Atlas\Database\DatabaseMapper;
+use Solution10\Atlas\Database\Logger;
 use Solution10\Atlas\HasMapper;
 use Solution10\Atlas\HasTimestamps;
 use Solution10\Atlas\MapperInterface;
@@ -118,6 +120,50 @@ class DatabaseMapperTest extends TestCase
 
         $this->assertEquals(2, $users[1]->getId());
         $this->assertEquals('Becky', $users[1]->getName());
+    }
+
+    public function testQueriesWithCaching()
+    {
+        $mapper = $this->getMapper();
+
+        $u1 = new User();
+        $u1->setName('Alex');
+        $mapper->create($u1);
+
+        $u2 = new User();
+        $u2->setName('Becky');
+        $mapper->create($u2);
+
+        // Set up the cache:
+        $cache = new ArrayCache();
+        $this->conn->setCache($cache);
+
+        // And the logger:
+        $this->conn->setLogger(new Logger());
+
+        $query = $mapper
+            ->startQuery()
+            ->setCacheLength(27);
+        $query->fetchAll();
+
+        $this->assertTrue(
+            $cache->contains($this->conn->createCacheKey($query->sql(), $query->params(), $query->getCacheLength()))
+        );
+
+        // Run it again:
+        $users = $query->fetchAll();
+
+        $this->assertInstanceOf(User::class, $users[0]);
+        $this->assertInstanceOf(User::class, $users[1]);
+
+        $this->assertEquals(1, $users[0]->getId());
+        $this->assertEquals('Alex', $users[0]->getName());
+
+        $this->assertEquals(2, $users[1]->getId());
+        $this->assertEquals('Becky', $users[1]->getName());
+
+        // Ensure only one query ran:
+        $this->assertEquals(1, $this->conn->getLogger()->totalQueries());
     }
 
     public function testUpdating()

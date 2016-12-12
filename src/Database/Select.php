@@ -22,6 +22,11 @@ class Select extends \Solution10\SQL\Select
     protected $mapper;
 
     /**
+     * @var     int
+     */
+    protected $cacheLength = Connection::CACHE_NEVER;
+
+    /**
      * Sets the mapper for this query
      *
      * @var     MapperInterface     $mapper
@@ -41,6 +46,24 @@ class Select extends \Solution10\SQL\Select
     public function getMapper()
     {
         return $this->mapper;
+    }
+
+    /**
+     * @return  int
+     */
+    public function getCacheLength(): int
+    {
+        return $this->cacheLength;
+    }
+
+    /**
+     * @param   int     $cacheLength
+     * @return  $this
+     */
+    public function setCacheLength(int $cacheLength)
+    {
+        $this->cacheLength = $cacheLength;
+        return $this;
     }
 
     /**
