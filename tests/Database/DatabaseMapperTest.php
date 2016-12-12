@@ -3,7 +3,6 @@
 namespace Solution10\Atlas\Tests\Database;
 
 use Doctrine\Common\Cache\ArrayCache;
-use Solution10\Atlas\CRUD;
 use Solution10\Atlas\Database\DatabaseMapper;
 use Solution10\Atlas\Database\Logger;
 use Solution10\Atlas\HasMapper;
