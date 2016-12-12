@@ -1,12 +1,12 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Database;
+namespace Solution10\Data\Tests\Database;
 
-use Solution10\Atlas\Database\Connection;
-use Solution10\Atlas\Database\Select;
-use Solution10\Atlas\PHPUnit\GetMockedMapper;
-use Solution10\Atlas\PHPUnit\TestCase;
-use Solution10\Atlas\Results;
+use Solution10\Data\Database\Connection;
+use Solution10\Data\Database\Select;
+use Solution10\Data\PHPUnit\GetMockedMapper;
+use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\Results;
 
 class SelectTest extends TestCase
 {

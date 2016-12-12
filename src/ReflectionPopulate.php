@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 trait ReflectionPopulate
 {

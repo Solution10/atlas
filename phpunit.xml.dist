@@ -12,7 +12,7 @@
     verbose="false">
 
     <testsuites>
-        <testsuite name="Solution10\Atlas Tests">
+        <testsuite name="Solution10\Data Tests">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

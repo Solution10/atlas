@@ -1,10 +1,10 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Parts;
+namespace Solution10\Data\Tests\Parts;
 
-use Solution10\Atlas\Parts\HasIdentity;
-use Solution10\Atlas\PHPUnit\TestCase;
-use Solution10\Atlas\ReflectionPopulate;
+use Solution10\Data\Parts\HasIdentity;
+use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\ReflectionPopulate;
 
 class HasIdentityTest extends TestCase
 {

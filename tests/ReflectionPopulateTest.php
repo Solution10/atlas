@@ -1,9 +1,9 @@
 <?php
 
-namespace Solution10\Atlas\Tests;
+namespace Solution10\Data\Tests;
 
-use Solution10\Atlas\PHPUnit\TestCase;
-use Solution10\Atlas\ReflectionPopulate;
+use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\ReflectionPopulate;
 
 class ReflectionPopulateTest extends TestCase
 {

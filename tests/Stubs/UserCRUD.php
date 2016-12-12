@@ -1,10 +1,10 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Stubs;
+namespace Solution10\Data\Tests\Stubs;
 
-use Solution10\Atlas\CRUD;
-use Solution10\Atlas\HasMapper;
-use Solution10\Atlas\MapperInterface;
+use Solution10\Data\CRUD;
+use Solution10\Data\HasMapper;
+use Solution10\Data\MapperInterface;
 
 class UserCRUD extends User implements HasMapper
 {

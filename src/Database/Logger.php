@@ -1,13 +1,13 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
 /**
  * Logger
  *
  * Implementation of the Logger interface for capturing queries sent through the S10 ORM.
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

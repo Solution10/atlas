@@ -1,16 +1,16 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
 use Solution10\ManagedInstance\ManagedInstance;
-use Solution10\Atlas\Database\Exception\ConnectionException;
+use Solution10\Data\Database\Exception\ConnectionException;
 
 /**
  * Class ConnectionManager
  *
  * Manages database connections.
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

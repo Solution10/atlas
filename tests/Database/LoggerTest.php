@@ -1,8 +1,8 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Database;
+namespace Solution10\Data\Tests\Database;
 
-use Solution10\Atlas\Database\Logger;
+use Solution10\Data\Database\Logger;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {

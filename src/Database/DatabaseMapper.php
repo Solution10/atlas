@@ -1,19 +1,19 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
-use Solution10\Atlas\HasIdentity;
-use Solution10\Atlas\HasTimestamps;
-use Solution10\Atlas\MapperInterface;
-use Solution10\Atlas\ReflectionPopulate;
-use Solution10\Atlas\Results;
+use Solution10\Data\HasIdentity;
+use Solution10\Data\HasTimestamps;
+use Solution10\Data\MapperInterface;
+use Solution10\Data\ReflectionPopulate;
+use Solution10\Data\Results;
 
 /**
  * Class DatabaseMapper
  *
  * Abstract base class for a database mapper object.
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */
@@ -43,7 +43,7 @@ abstract class DatabaseMapper implements MapperInterface
     abstract public function getModelInstance();
 
     /**
-     * @return  \Solution10\Atlas\Database\Connection
+     * @return  \Solution10\Data\Database\Connection
      */
     public function getConnection(): Connection
     {

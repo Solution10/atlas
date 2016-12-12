@@ -1,5 +1,5 @@
 {
-    "name": "solution10/atlas",
+    "name": "solution10/data",
     "description": "Data mapper. Like an ORM, but not.",
     "minimum-stability": "stable",
     "license": "MIT",
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Solution10\\Atlas\\": "src/"
+            "Solution10\\Data\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Solution10\\Atlas\\Tests\\": "tests/"
+            "Solution10\\Data\\Tests\\": "tests/"
         }
     }
 }

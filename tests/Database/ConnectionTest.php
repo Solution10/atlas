@@ -1,10 +1,10 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Database;
+namespace Solution10\Data\Tests\Database;
 
 use Doctrine\Common\Cache\ArrayCache;
-use Solution10\Atlas\PHPUnit\BasicDatabase;
-use Solution10\Atlas\Database\Logger;
+use Solution10\Data\PHPUnit\BasicDatabase;
+use Solution10\Data\Database\Logger;
 use Solution10\SQL\Select;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase

@@ -1,13 +1,13 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
 /**
  * Interface LoggerInterface
  *
  * Interface that Query loggers should implement against.
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

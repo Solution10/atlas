@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 /**
  * Interface HasTimestamps
@@ -8,7 +8,7 @@ namespace Solution10\Atlas;
  * Indicates that this object has created and updated timestamps
  * attached to it.
  *
- * @package     Solution10\Atlas
+ * @package     Solution10\Data
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

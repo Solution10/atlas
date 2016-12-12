@@ -1,13 +1,13 @@
 <?php
 
-namespace Solution10\Atlas\PHPUnit;
+namespace Solution10\Data\PHPUnit;
 
 /**
  * Class TestCase
  *
  * Base test case for all unit tests.
  *
- * @package     Solution10\Atlas\PHPUnit
+ * @package     Solution10\Data\PHPUnit
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

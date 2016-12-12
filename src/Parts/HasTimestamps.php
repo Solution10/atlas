@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas\Parts;
+namespace Solution10\Data\Parts;
 
 /**
  * Class HasTimestamps
@@ -8,7 +8,7 @@ namespace Solution10\Atlas\Parts;
  * Implements the HasTimestamps interface to provide created and
  * updated timestamps on a model.
  *
- * @package     Solution10\Atlas\Parts
+ * @package     Solution10\Data\Parts
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

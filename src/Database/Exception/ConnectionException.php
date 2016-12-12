@@ -1,8 +1,8 @@
 <?php
 
-namespace Solution10\Atlas\Database\Exception;
+namespace Solution10\Data\Database\Exception;
 
-use Solution10\Atlas\Exception;
+use Solution10\Data\Exception;
 
 class ConnectionException extends Exception
 {

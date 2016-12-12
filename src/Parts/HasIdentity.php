@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas\Parts;
+namespace Solution10\Data\Parts;
 
 /**
  * Class HasIdentity
@@ -8,7 +8,7 @@ namespace Solution10\Atlas\Parts;
  * Implements the HasIdentity interface in the most straightfoward
  * way possible.
  *
- * @package     Solution10\Atlas\Parts
+ * @package     Solution10\Data\Parts
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 /**
  * Class Results
@@ -9,7 +9,7 @@ namespace Solution10\Atlas;
  * and populate new model instances for you based on an "example"
  * model instance in the constructor.
  *
- * @package     Solution10\Atlas
+ * @package     Solution10\Data
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

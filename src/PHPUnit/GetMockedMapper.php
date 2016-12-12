@@ -1,11 +1,11 @@
 <?php
 
-namespace Solution10\Atlas\PHPUnit;
+namespace Solution10\Data\PHPUnit;
 
-use Solution10\Atlas\Database\Select;
-use Solution10\Atlas\MapperInterface;
-use Solution10\Atlas\ReflectionPopulate;
-use Solution10\Atlas\Results;
+use Solution10\Data\Database\Select;
+use Solution10\Data\MapperInterface;
+use Solution10\Data\ReflectionPopulate;
+use Solution10\Data\Results;
 
 trait GetMockedMapper
 {

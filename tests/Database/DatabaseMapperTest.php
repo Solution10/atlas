@@ -1,17 +1,17 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Database;
+namespace Solution10\Data\Tests\Database;
 
 use Doctrine\Common\Cache\ArrayCache;
-use Solution10\Atlas\Database\DatabaseMapper;
-use Solution10\Atlas\Database\Logger;
-use Solution10\Atlas\HasMapper;
-use Solution10\Atlas\HasTimestamps;
-use Solution10\Atlas\MapperInterface;
-use Solution10\Atlas\PHPUnit\BasicDatabase;
-use Solution10\Atlas\PHPUnit\TestCase;
-use Solution10\Atlas\Tests\Stubs\User;
-use Solution10\Atlas\Tests\Stubs\UserCRUD;
+use Solution10\Data\Database\DatabaseMapper;
+use Solution10\Data\Database\Logger;
+use Solution10\Data\HasMapper;
+use Solution10\Data\HasTimestamps;
+use Solution10\Data\MapperInterface;
+use Solution10\Data\PHPUnit\BasicDatabase;
+use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\Tests\Stubs\User;
+use Solution10\Data\Tests\Stubs\UserCRUD;
 
 class DatabaseMapperTest extends TestCase
 {
@@ -80,7 +80,7 @@ class DatabaseMapperTest extends TestCase
     {
         $u = new class extends User implements HasTimestamps
         {
-            use \Solution10\Atlas\Parts\HasTimestamps;
+            use \Solution10\Data\Parts\HasTimestamps;
         };
         $u->setName('Alex');
 
@@ -209,7 +209,7 @@ class DatabaseMapperTest extends TestCase
     {
         $u = new class extends User implements HasTimestamps
         {
-            use \Solution10\Atlas\Parts\HasTimestamps;
+            use \Solution10\Data\Parts\HasTimestamps;
         };
         $u->setName('Alex');
 
@@ -251,7 +251,7 @@ class DatabaseMapperTest extends TestCase
         $u = new class implements HasTimestamps{
             protected $name;
 
-            use \Solution10\Atlas\Parts\HasTimestamps;
+            use \Solution10\Data\Parts\HasTimestamps;
 
             public function getName()
             {
@@ -289,7 +289,7 @@ class DatabaseMapperTest extends TestCase
         $u = new class implements HasTimestamps{
             protected $name;
 
-            use \Solution10\Atlas\Parts\HasTimestamps;
+            use \Solution10\Data\Parts\HasTimestamps;
 
             public function getName()
             {

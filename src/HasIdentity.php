@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 /**
  * Interface HasIdentity
@@ -8,7 +8,7 @@ namespace Solution10\Atlas;
  * This interface declares that an object can be identified uniquely
  * within its mapper.
  *
- * @package     Solution10\Atlas
+ * @package     Solution10\Data
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

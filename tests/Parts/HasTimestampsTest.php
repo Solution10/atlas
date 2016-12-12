@@ -1,9 +1,9 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Parts;
+namespace Solution10\Data\Tests\Parts;
 
-use Solution10\Atlas\Parts\HasTimestamps;
-use Solution10\Atlas\PHPUnit\TestCase;
+use Solution10\Data\Parts\HasTimestamps;
+use Solution10\Data\PHPUnit\TestCase;
 
 class HasTimestampsTest extends TestCase
 {

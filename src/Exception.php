@@ -1,13 +1,13 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 /**
  * Class Exception
  *
  * Base Exception class for the lib.
  *
- * @package     Solution10\Atlas
+ * @package     Solution10\Data
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

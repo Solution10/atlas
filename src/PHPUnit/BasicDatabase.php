@@ -1,23 +1,23 @@
 <?php
 
-namespace Solution10\Atlas\PHPUnit;
+namespace Solution10\Data\PHPUnit;
 
-use Solution10\Atlas\Database\Connection;
-use Solution10\Atlas\Database\ConnectionManager;
+use Solution10\Data\Database\Connection;
+use Solution10\Data\Database\ConnectionManager;
 
 /**
  * BasicDatabase
  *
  * Sets up a basic database for the PHPUnit test cases.
  *
- * @package     Solution10\Atlas\PHPUnit
+ * @package     Solution10\Data\PHPUnit
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */
 trait BasicDatabase
 {
     /**
-     * @var     \Solution10\Atlas\Database\Connection
+     * @var     \Solution10\Data\Database\Connection
      */
     protected $conn;
 

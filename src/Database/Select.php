@@ -1,16 +1,16 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
-use Solution10\Atlas\MapperInterface;
-use Solution10\Atlas\Results;
+use Solution10\Data\MapperInterface;
+use Solution10\Data\Results;
 
 /**
  * Class Select
  *
  * Extended Select class that adds mapper features.
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

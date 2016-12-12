@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas;
+namespace Solution10\Data;
 
 /**
  * Interface MapperInterface
@@ -8,7 +8,7 @@ namespace Solution10\Atlas;
  * Forms the core of the Atlas project, this controls the
  * lifespan of the objects it looks after.
  *
- * @package     Solution10\Atlas
+ * @package     Solution10\Data
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

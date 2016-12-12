@@ -1,9 +1,9 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Database;
+namespace Solution10\Data\Tests\Database;
 
-use Solution10\Atlas\Database\Connection;
-use Solution10\Atlas\Database\ConnectionManager;
+use Solution10\Data\Database\Connection;
+use Solution10\Data\Database\ConnectionManager;
 
 class ConnectionManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,8 +50,8 @@ class ConnectionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException       \Solution10\Atlas\Database\Exception\ConnectionException
-     * @expectedExceptionCode   \Solution10\Atlas\Database\Exception\ConnectionException::UNKNOWN_CONNECTION
+     * @expectedException       \Solution10\Data\Database\Exception\ConnectionException
+     * @expectedExceptionCode   \Solution10\Data\Database\Exception\ConnectionException::UNKNOWN_CONNECTION
      */
     public function testUnknownConnection()
     {

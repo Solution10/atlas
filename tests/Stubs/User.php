@@ -1,12 +1,12 @@
 <?php
 
-namespace Solution10\Atlas\Tests\Stubs;
+namespace Solution10\Data\Tests\Stubs;
 
-use Solution10\Atlas\HasIdentity;
+use Solution10\Data\HasIdentity;
 
 class User implements HasIdentity
 {
-    use \Solution10\Atlas\Parts\HasIdentity;
+    use \Solution10\Data\Parts\HasIdentity;
 
     protected $name;
 

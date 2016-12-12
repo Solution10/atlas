@@ -1,6 +1,6 @@
 <?php
 
-namespace Solution10\Atlas\Database;
+namespace Solution10\Data\Database;
 
 use Doctrine\Common\Cache\Cache;
 use Solution10\SQL\Delete;
@@ -16,7 +16,7 @@ use Solution10\SQL\Update;
  * A simple subclass of PDO that adds a couple of needed features, mostly
  * around dialects
  *
- * @package     Solution10\Atlas\Database
+ * @package     Solution10\Data\Database
  * @author      Alex Gisby<alex@solution10.com>
  * @license     MIT
  */

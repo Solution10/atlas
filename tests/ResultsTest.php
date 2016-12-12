@@ -1,12 +1,12 @@
 <?php
 
-namespace Solution10\Atlas\Tests;
+namespace Solution10\Data\Tests;
 
-use Solution10\Atlas\HasMapper;
-use Solution10\Atlas\MapperInterface;
-use Solution10\Atlas\PHPUnit\TestCase;
-use Solution10\Atlas\ReflectionPopulate;
-use Solution10\Atlas\Results;
+use Solution10\Data\HasMapper;
+use Solution10\Data\MapperInterface;
+use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\ReflectionPopulate;
+use Solution10\Data\Results;
 
 class ResultsTest extends TestCase
 {
