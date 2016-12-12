@@ -4,6 +4,8 @@ namespace Solution10\Data;
 
 trait ReflectionPopulate
 {
+    use StringConverter;
+
     /**
      * @param   object  $object
      * @param   array   $data
@@ -13,7 +15,7 @@ trait ReflectionPopulate
     {
         $ref = new \ReflectionClass($object);
         foreach ($data as $k => $v) {
-            $setterName = 'set'.str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $k)));
+            $setterName = $this->snakeToCamel($k, 'set');
             if (method_exists($object, $setterName)) {
                 $object->$setterName($v);
             } elseif (property_exists($object, $k)) {
