@@ -13,7 +13,10 @@ trait ReflectionPopulate
     {
         $ref = new \ReflectionClass($object);
         foreach ($data as $k => $v) {
-            if (property_exists($object, $k)) {
+            $setterName = 'set'.str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $k)));
+            if (method_exists($object, $setterName)) {
+                $object->$setterName($v);
+            } elseif (property_exists($object, $k)) {
                 $prop = $ref->getProperty($k);
                 $prop->setAccessible(true);
                 $prop->setValue($object, $v);

@@ -61,4 +61,50 @@ class ReflectionPopulateTest extends TestCase
         $this->assertFalse(property_exists($object, 'age'));
         $this->assertFalse(property_exists($object, 'location'));
     }
+
+    public function testPopulateWithSetter()
+    {
+        $object = new class {
+            private $data = [];
+
+            public function getName()
+            {
+                return $this->data['name'];
+            }
+
+            public function setName(string $name)
+            {
+                $this->data['name'] = 'Hello '.$name;
+                return $this;
+            }
+        };
+
+        $trait = $this->getTrait();
+        $object = $trait->populateWithReflection($object, ['name' => 'Alex']);
+
+        $this->assertEquals('Hello Alex', $object->getName());
+    }
+
+    public function testPopulatePrefersSetterToProperty()
+    {
+        $object = new class {
+            protected $name;
+
+            public function getName()
+            {
+                return $this->name;
+            }
+
+            public function setName(string $name)
+            {
+                $this->name = 'Hello '.$name;
+                return $this;
+            }
+        };
+
+        $trait = $this->getTrait();
+        $object = $trait->populateWithReflection($object, ['name' => 'Alex']);
+
+        $this->assertEquals('Hello Alex', $object->getName());
+    }
 }
