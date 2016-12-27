@@ -86,4 +86,15 @@ class SelectTest extends TestCase
         $this->assertInternalType('object', $result);
         $this->assertEquals('Alex', $result->name);
     }
+
+    public function testCount()
+    {
+        $mapper = $this->getMockedDatabaseMapper([
+            ['aggr' => 27]
+        ]);
+
+        $s = new Select();
+        $s->setMapper($mapper);
+        $this->assertEquals(27, $s->count());
+    }
 }

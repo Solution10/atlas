@@ -79,4 +79,12 @@ interface MapperInterface
      * @return  Results
      */
     public function fetchQuery($query): Results;
+
+    /**
+     * Returns the "rawest" response possible from a given query.
+     *
+     * @param   mixed   $query
+     * @return  mixed
+     */
+    public function fetchQueryRaw($query);
 }

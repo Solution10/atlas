@@ -165,6 +165,24 @@ class DatabaseMapperTest extends TestCase
         $this->assertEquals(1, $this->conn->getLogger()->totalQueries());
     }
 
+    public function testFetchQueryRaw()
+    {
+        $mapper = $this->getMapper();
+        $usersCount = $mapper->startQuery()->count();
+        $this->assertEquals(0, $usersCount);
+
+        $u1 = new User();
+        $u1->setName('Alex');
+        $mapper->create($u1);
+
+        $u2 = new User();
+        $u2->setName('Becky');
+        $mapper->create($u2);
+
+        $usersCount = $mapper->startQuery()->count();
+        $this->assertEquals(2, $usersCount);
+    }
+
     public function testUpdating()
     {
         $mapper = $this->getMapper();

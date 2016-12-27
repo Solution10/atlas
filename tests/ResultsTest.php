@@ -252,6 +252,10 @@ class ResultsTest extends TestCase
                     public function fetchQuery($query): Results
                     {
                     }
+
+                    public function fetchQueryRaw($query)
+                    {
+                    }
                 };
             }
         };

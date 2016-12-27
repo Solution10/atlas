@@ -4,6 +4,7 @@ namespace Solution10\Data\Database;
 
 use Solution10\Data\MapperInterface;
 use Solution10\Data\Results;
+use Solution10\SQL\Expression;
 
 /**
  * Class Select
@@ -90,5 +91,20 @@ class Select extends \Solution10\SQL\Select
             throw new \LogicException('Mapper not set for query!');
         }
         return $this->getMapper()->fetchQuery($this)->getFirst();
+    }
+
+    /**
+     * Performs a count using the given query. Will overwrite all of
+     * your previously chosen SELECT statements.
+     *
+     * @return  int
+     */
+    public function count(): int
+    {
+        $this
+            ->resetSelect()
+            ->select(new Expression('COUNT(*) as aggr'));
+
+        return $this->getMapper()->fetchQueryRaw($this)[0]['aggr'];
     }
 }

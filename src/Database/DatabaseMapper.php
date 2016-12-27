@@ -212,7 +212,7 @@ abstract class DatabaseMapper implements MapperInterface
         $conn = $this->getConnection();
         $q = new Select($conn->dialect());
         $q
-            ->select('*')
+            ->select($this->getTableName().'.*')
             ->from($this->getTableName())
             ->setMapper($this)
         ;
@@ -230,5 +230,17 @@ abstract class DatabaseMapper implements MapperInterface
     {
         $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
         return new Results($this->getModelInstance(), $data);
+    }
+
+    /**
+     * Fetches a raw resultset from a query
+     *
+     * @param   Select  $query
+     * @return  array
+     */
+    public function fetchQueryRaw($query)
+    {
+        $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
+        return $data;
     }
 }

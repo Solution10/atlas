@@ -58,6 +58,11 @@ trait GetMockedMapper
                     public $name;
                 }, $this->items);
             }
+
+            public function fetchQueryRaw($query)
+            {
+                return $this->items;
+            }
         };
 
         $mapper->items = $data;
