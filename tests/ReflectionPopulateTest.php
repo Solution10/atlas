@@ -107,4 +107,21 @@ class ReflectionPopulateTest extends TestCase
 
         $this->assertEquals('Hello Alex', $object->getName());
     }
+
+    public function testSnakeProperties()
+    {
+        $object = new class {
+            protected $loginCount = 0;
+
+            public function getLoginCount()
+            {
+                return $this->loginCount;
+            }
+        };
+
+        $trait = $this->getTrait();
+        $object = $trait->populateWithReflection($object, ['login_count' => 27]);
+
+        $this->assertEquals(27, $object->getLoginCount());
+    }
 }

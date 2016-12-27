@@ -16,10 +16,12 @@ trait ReflectionPopulate
         $ref = new \ReflectionClass($object);
         foreach ($data as $k => $v) {
             $setterName = $this->snakeToCamel($k, 'set');
+            $camelProperty = $this->snakeToCamel($k);
             if (method_exists($object, $setterName)) {
                 $object->$setterName($v);
-            } elseif (property_exists($object, $k)) {
-                $prop = $ref->getProperty($k);
+            } elseif (property_exists($object, $k) || property_exists($object, $camelProperty)) {
+                $propName = (property_exists($object, $k))? $k : $camelProperty;
+                $prop = $ref->getProperty($propName);
                 $prop->setAccessible(true);
                 $prop->setValue($object, $v);
             }
