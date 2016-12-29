@@ -3,16 +3,35 @@
 namespace Solution10\Data\Tests\Database;
 
 use Solution10\Data\Database\Logger;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {
+    protected function getDummyStopwatchEvent($totalTime)
+    {
+        $event = new class(0) extends StopwatchEvent
+        {
+            public $hardDuration;
+
+            public function getDuration()
+            {
+                if (isset($this->hardDuration)) {
+                    return $this->hardDuration;
+                }
+                return parent::getDuration();
+            }
+        };
+        $event->hardDuration = $totalTime;
+        return $event;
+    }
+
     public function testOnEvent()
     {
         $l = new Logger();
         $this->assertEquals($l, $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [1],
-            0.25
+            $this->getDummyStopwatchEvent(10)
         ));
     }
 
@@ -22,12 +41,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [1],
-            0.25
+            $this->getDummyStopwatchEvent(10)
         );
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [2],
-            0.35
+            $this->getDummyStopwatchEvent(10)
         );
 
         $this->assertEquals(2, $l->totalQueries());
@@ -39,15 +58,15 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [1],
-            0.25
+            $this->getDummyStopwatchEvent(10)
         );
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [2],
-            0.35
+            $this->getDummyStopwatchEvent(20)
         );
 
-        $this->assertEquals(0.60, $l->totalTime());
+        $this->assertEquals(30, $l->totalTime());
     }
 
     public function testEvents()
@@ -56,24 +75,24 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [1],
-            0.25
+            $this->getDummyStopwatchEvent(10)
         );
         $l->onQuery(
             'SELECT * FROM users WHERE id = ?',
             [2],
-            0.35
+            $this->getDummyStopwatchEvent(20)
         );
 
         $this->assertEquals([
             [
                 'sql' => 'SELECT * FROM users WHERE id = ?',
                 'parameters' => [1],
-                'time' => 0.25
+                'time' => 10
             ],
             [
                 'sql' => 'SELECT * FROM users WHERE id = ?',
                 'parameters' => [2],
-                'time' => 0.35
+                'time' => 20
             ],
         ], $l->events());
     }

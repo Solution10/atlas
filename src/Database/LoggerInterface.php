@@ -2,6 +2,8 @@
 
 namespace Solution10\Data\Database;
 
+use Symfony\Component\Stopwatch\StopwatchEvent;
+
 /**
  * Interface LoggerInterface
  *
@@ -18,8 +20,8 @@ interface LoggerInterface
      *
      * @param   string          $sql
      * @param   array|null      $parameters
-     * @param   float           $time
+     * @param   StopwatchEvent  $event
      * @return  $this
      */
-    public function onQuery($sql, $parameters, $time);
+    public function onQuery($sql, $parameters, StopwatchEvent $event);
 }

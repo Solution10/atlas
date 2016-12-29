@@ -2,6 +2,9 @@
 
 namespace Solution10\Data\Database;
 
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Stopwatch\StopwatchEvent;
+
 /**
  * Logger
  *
@@ -21,17 +24,17 @@ class Logger implements LoggerInterface
     /**
      * Sent when a query has executed
      *
-     * @param   string     $sql
-     * @param   array|null $parameters
-     * @param   float      $time
+     * @param   string          $sql
+     * @param   array|null      $parameters
+     * @param   StopwatchEvent  $event
      * @return  $this
      */
-    public function onQuery($sql, $parameters, $time)
+    public function onQuery($sql, $parameters, StopwatchEvent $event = null)
     {
         $this->events[] = [
             'sql' => $sql,
             'parameters' => $parameters,
-            'time' => $time,
+            'time' => ($event)? $event->getDuration() : 0,
         ];
         return $this;
     }

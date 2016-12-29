@@ -9,6 +9,7 @@ use Solution10\SQL\Dialect\MySQL;
 use Solution10\SQL\Insert;
 use Solution10\SQL\Query;
 use Solution10\SQL\Update;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Connection
@@ -34,6 +35,11 @@ class Connection extends \PDO
      * @var     Cache     Cache object for this Connection to make use of.
      */
     protected $cache;
+
+    /**
+     * @var     Stopwatch
+     */
+    protected $stopwatch;
 
     /**
      * Returns the correct Solution10\SQL\DialectInterface instance for this connection
@@ -111,6 +117,29 @@ class Connection extends \PDO
             $paramString .= '_'.$v;
         }
         return md5($key.$paramString);
+    }
+
+    /**
+     * Sets the stopwatch to track query times
+     *
+     * @param   Stopwatch   $stopwatch
+     * @return  $this
+     */
+    public function setStopwatch(Stopwatch $stopwatch)
+    {
+        $this->stopwatch = $stopwatch;
+        return $this;
+    }
+
+    /**
+     * @return  Stopwatch
+     */
+    public function getStopwatch(): Stopwatch
+    {
+        if (!isset($this->stopwatch)) {
+            $this->stopwatch = new Stopwatch();
+        }
+        return $this->stopwatch;
     }
 
     /**
@@ -276,12 +305,15 @@ class Connection extends \PDO
      */
     public function doQuery(\PDOStatement $stmt, array $params = null)
     {
-        $start = microtime(true);
+        static $queryCount = 0;
+
+        $this->getStopwatch()->start($queryCount.'-'.$stmt->queryString, 's10-data');
         $stmt->execute($params);
-        $end = microtime(true);
+        $event = $this->getStopwatch()->stop($queryCount.'-'.$stmt->queryString);
+        $queryCount ++;
 
         if ($this->logger) {
-            $this->logger->onQuery($stmt->queryString, $params, ($end - $start) * 1000);
+            $this->logger->onQuery($stmt->queryString, $params, $event);
         }
 
         return $stmt;

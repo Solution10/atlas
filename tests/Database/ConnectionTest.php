@@ -6,6 +6,7 @@ use Doctrine\Common\Cache\ArrayCache;
 use Solution10\Data\PHPUnit\BasicDatabase;
 use Solution10\Data\Database\Logger;
 use Solution10\SQL\Select;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,6 +26,14 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $cache = new ArrayCache();
         $this->assertEquals($this->conn, $this->conn->setCache($cache));
         $this->assertEquals($cache, $this->conn->getCache());
+    }
+
+    public function testSetGetStopwatch()
+    {
+        $stopwatch = new Stopwatch();
+        $this->assertInstanceOf(Stopwatch::class, $this->conn->getStopwatch());
+        $this->assertEquals($this->conn, $this->conn->setStopwatch($stopwatch));
+        $this->assertSame($stopwatch, $this->conn->getStopwatch());
     }
 
     public function testInsert()
@@ -50,7 +59,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $events);
         $this->assertContains('INSERT INTO', $events[0]['sql']);
         $this->assertEquals(['Alex'], $events[0]['parameters']);
-        $this->assertInternalType('float', $events[0]['time']);
+        $this->assertInternalType('numeric', $events[0]['time']);
     }
 
     public function testUpdate()
@@ -79,7 +88,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $events); // offset as the INSERT logs too
         $this->assertContains('UPDATE', $events[1]['sql']);
         $this->assertEquals(['Alexander', 1], $events[1]['parameters']);
-        $this->assertInternalType('float', $events[1]['time']);
+        $this->assertInternalType('numeric', $events[1]['time']);
     }
 
     public function testDelete()
@@ -105,7 +114,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(3, $events); // offset as the INSERT logs too
         $this->assertContains('DELETE', $events[2]['sql']);
         $this->assertEquals([1], $events[2]['parameters']);
-        $this->assertInternalType('float', $events[2]['time']);
+        $this->assertInternalType('numeric', $events[2]['time']);
     }
 
     public function testFetch()
