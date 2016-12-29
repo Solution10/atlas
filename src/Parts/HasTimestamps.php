@@ -14,6 +14,8 @@ namespace Solution10\Data\Parts;
  */
 trait HasTimestamps
 {
+    use GetDateTime;
+
     /**
      * @var     \DateTime
      */
@@ -32,17 +34,7 @@ trait HasTimestamps
      */
     public function setCreated($created)
     {
-        if ($created instanceof \DateTime) {
-            $this->createdAt = $created;
-        } else {
-            if (is_integer($created)) {
-                $this->createdAt = new \DateTime();
-                $this->createdAt->setTimestamp($created);
-            } else {
-                $this->createdAt = new \DateTime($created);
-            }
-        }
-
+        $this->createdAt = $this->getDateTimeFrom($created);
         return $this;
     }
 
@@ -64,16 +56,7 @@ trait HasTimestamps
      */
     public function setUpdated($updated)
     {
-        if ($updated instanceof \DateTime) {
-            $this->updatedAt = $updated;
-        } else {
-            if (is_integer($updated)) {
-                $this->updatedAt = new \DateTime();
-                $this->updatedAt->setTimestamp($updated);
-            } else {
-                $this->updatedAt = new \DateTime($updated);
-            }
-        }
+        $this->updatedAt = $this->getDateTimeFrom($updated);
         return $this;
     }
 
