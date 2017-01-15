@@ -229,7 +229,7 @@ abstract class DatabaseMapper implements MapperInterface
     public function fetchQuery($query): Results
     {
         $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
-        return new Results($this->getModelInstance(), $data);
+        return new Results($this->getModelInstance(), $data, $this);
     }
 
     /**

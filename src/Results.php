@@ -28,6 +28,11 @@ class Results implements \Countable, \Iterator, \ArrayAccess
     protected $results = [];
 
     /**
+     * @var     MapperInterface
+     */
+    protected $mapper = null;
+
+    /**
      * @var     object[]
      */
     protected $built = [];
@@ -39,13 +44,15 @@ class Results implements \Countable, \Iterator, \ArrayAccess
 
     /**
      * Results constructor.
-     * @param   object $model Model instance to clone and populate.
-     * @param   array $data Dataset to represent.
+     * @param   object          $model  Model instance to clone and populate.
+     * @param   array           $data   Dataset to represent.
+     * @param   MapperInterface $mapper Mapper, if there is one.
      */
-    public function __construct($model, array $data)
+    public function __construct($model, array $data, MapperInterface $mapper = null)
     {
         $this->model = $model;
         $this->results = $data;
+        $this->mapper = $mapper;
     }
 
     /**
@@ -174,6 +181,8 @@ class Results implements \Countable, \Iterator, \ArrayAccess
     {
         if ($model instanceof HasMapper) {
             return $model->getMapper()->load($model, $data);
+        } elseif ($this->mapper) {
+            return $this->mapper->load($model, $data);
         }
         return $this->populateWithReflection($model, $data);
     }
