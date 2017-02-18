@@ -16,5 +16,5 @@ interface HasMapper
     /**
      * @return  MapperInterface
      */
-    public function getMapper(): MapperInterface;
+    public function getMapper();
 }

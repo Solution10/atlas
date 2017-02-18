@@ -18,7 +18,7 @@ trait StringConverter
      * @param   string  $prefix
      * @return  string
      */
-    public function snakeToCamel(string $string, string $prefix = ''): string
+    public function snakeToCamel($string, $prefix = '')
     {
         return lcfirst($prefix.str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $string))));
     }

@@ -17,7 +17,7 @@ trait CRUD
     /**
      * @return  MapperInterface
      */
-    abstract public function getMapper(): MapperInterface;
+    abstract public function getMapper();
 
     /**
      * Saves this model via the mapper.

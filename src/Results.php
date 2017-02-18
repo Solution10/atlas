@@ -58,7 +58,7 @@ class Results implements \Countable, \Iterator, \ArrayAccess
     /**
      * @return int
      */
-    public function count(): int
+    public function count()
     {
         return count($this->results);
     }
@@ -100,7 +100,7 @@ class Results implements \Countable, \Iterator, \ArrayAccess
     /**
      * @return bool
      */
-    public function valid(): bool
+    public function valid()
     {
         return $this->pointer < count($this);
     }
@@ -111,7 +111,7 @@ class Results implements \Countable, \Iterator, \ArrayAccess
      * @param   mixed   $offset
      * @return  bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->results);
     }

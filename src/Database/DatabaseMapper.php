@@ -26,14 +26,14 @@ abstract class DatabaseMapper implements MapperInterface
      *
      * @return  string
      */
-    abstract public function getTableName(): string;
+    abstract public function getTableName();
 
     /**
      * Returns the connection name this mapper works with.
      *
      * @return  string
      */
-    abstract public function getConnectionName(): string;
+    abstract public function getConnectionName();
 
     /**
      * Returns an instance of the main model this mapper operates on.
@@ -45,7 +45,7 @@ abstract class DatabaseMapper implements MapperInterface
     /**
      * @return  \Solution10\Data\Database\Connection
      */
-    public function getConnection(): Connection
+    public function getConnection()
     {
         return ConnectionManager::instance()->connection($this->getConnectionName());
     }
@@ -88,7 +88,7 @@ abstract class DatabaseMapper implements MapperInterface
      * @param   object  $model
      * @return  array
      */
-    abstract protected function getCreateData($model): array;
+    abstract protected function getCreateData($model);
 
     /**
      * @param   object    $model
@@ -120,7 +120,7 @@ abstract class DatabaseMapper implements MapperInterface
      * @param   object  $model
      * @return  array
      */
-    abstract protected function getUpdateData($model): array;
+    abstract protected function getUpdateData($model);
 
     /**
      * Returns the condition for the Connection object to perform the update on.
@@ -128,7 +128,7 @@ abstract class DatabaseMapper implements MapperInterface
      * @param   object  $model
      * @return  array
      */
-    protected function getUpdateCondition($model): array
+    protected function getUpdateCondition($model)
     {
         if ($model instanceof HasIdentity) {
             return [$model->getIdentityProperty() => $model->getId()];
@@ -164,7 +164,7 @@ abstract class DatabaseMapper implements MapperInterface
      * @param   object  $model
      * @return  array
      */
-    protected function getDeleteCondition($model): array
+    protected function getDeleteCondition($model)
     {
         if ($model instanceof HasIdentity) {
             return [$model->getIdentityProperty() => $model->getId()];
@@ -226,7 +226,7 @@ abstract class DatabaseMapper implements MapperInterface
      * @param   Select  $query
      * @return  Results
      */
-    public function fetchQuery($query): Results
+    public function fetchQuery($query)
     {
         $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
         return new Results($this->getModelInstance(), $data, $this);

@@ -21,7 +21,7 @@ trait GetDateTime
      * @param   mixed   $input
      * @return  \DateTime|null
      */
-    protected function getDateTimeFrom($input): \DateTime
+    protected function getDateTimeFrom($input)
     {
         $return = $input;
         if ($input instanceof \DateTime === false) {

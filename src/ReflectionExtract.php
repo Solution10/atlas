@@ -24,7 +24,7 @@ trait ReflectionExtract
      * @param   array   $properties     Properties / methods to extract
      * @return  array
      */
-    public function extractWithReflection($object, array $properties): array
+    public function extractWithReflection($object, array $properties)
     {
         $data = [];
 

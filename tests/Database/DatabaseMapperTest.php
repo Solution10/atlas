@@ -3,64 +3,27 @@
 namespace Solution10\Data\Tests\Database;
 
 use Doctrine\Common\Cache\ArrayCache;
-use Solution10\Data\Database\DatabaseMapper;
 use Solution10\Data\Database\Logger;
 use Solution10\Data\HasMapper;
 use Solution10\Data\HasTimestamps;
 use Solution10\Data\MapperInterface;
 use Solution10\Data\PHPUnit\BasicDatabase;
 use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\Tests\Stubs\MockUsersDatabaseMapper;
 use Solution10\Data\Tests\Stubs\User;
 use Solution10\Data\Tests\Stubs\UserCRUD;
+use Solution10\Data\Tests\Stubs\UserWithTimestamps;
 
 class DatabaseMapperTest extends TestCase
 {
     use BasicDatabase;
 
     /**
-     * @return  DatabaseMapper
+     * @return  MockUsersDatabaseMapper
      */
     protected function getMapper()
     {
-        return new class extends DatabaseMapper
-        {
-            protected $modelInstance;
-
-            public function getTableName(): string
-            {
-                return 'users';
-            }
-
-            public function getConnectionName(): string
-            {
-                return 'default';
-            }
-
-            public function setModelInstance($model)
-            {
-                $this->modelInstance = $model;
-                return $this;
-            }
-
-            public function getModelInstance()
-            {
-                return (isset($this->modelInstance))? $this->modelInstance : new User();
-            }
-
-            protected function getCreateData($model): array
-            {
-                return [
-                    'name' => $model->getName()
-                ];
-            }
-
-            protected function getUpdateData($model): array
-            {
-                return [
-                    'name' => $model->getName()
-                ];
-            }
-        };
+        return new MockUsersDatabaseMapper();
     }
 
     public function testCreate()
@@ -78,10 +41,7 @@ class DatabaseMapperTest extends TestCase
 
     public function testCreateWithTimestamps()
     {
-        $u = new class extends User implements HasTimestamps
-        {
-            use \Solution10\Data\Parts\HasTimestamps;
-        };
+        $u = new UserWithTimestamps();
         $u->setName('Alex');
 
         $mapper = $this->getMapper();

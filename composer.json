@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=5.6",
         "solution10/managed-instance": "^1.0",
         "solution10/collection": "^1.0",
         "solution10/sql": "^1.3",

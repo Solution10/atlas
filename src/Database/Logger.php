@@ -2,7 +2,6 @@
 
 namespace Solution10\Data\Database;
 
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
 /**

@@ -52,7 +52,7 @@ class Select extends \Solution10\SQL\Select
     /**
      * @return  int
      */
-    public function getCacheLength(): int
+    public function getCacheLength()
     {
         return $this->cacheLength;
     }
@@ -61,7 +61,7 @@ class Select extends \Solution10\SQL\Select
      * @param   int     $cacheLength
      * @return  $this
      */
-    public function setCacheLength(int $cacheLength)
+    public function setCacheLength($cacheLength)
     {
         $this->cacheLength = $cacheLength;
         return $this;
@@ -72,7 +72,7 @@ class Select extends \Solution10\SQL\Select
      *
      * @return  Results
      */
-    public function fetchAll(): Results
+    public function fetchAll()
     {
         if (!isset($this->mapper)) {
             throw new \LogicException('Mapper not set for query!');
@@ -99,7 +99,7 @@ class Select extends \Solution10\SQL\Select
      *
      * @return  int
      */
-    public function count(): int
+    public function count()
     {
         $this
             ->resetSelect()

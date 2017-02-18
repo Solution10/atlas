@@ -134,7 +134,7 @@ class Connection extends \PDO
     /**
      * @return  Stopwatch
      */
-    public function getStopwatch(): Stopwatch
+    public function getStopwatch()
     {
         if (!isset($this->stopwatch)) {
             $this->stopwatch = new Stopwatch();

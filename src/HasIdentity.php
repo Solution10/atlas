@@ -24,5 +24,5 @@ interface HasIdentity
      *
      * @return  string
      */
-    public function getIdentityProperty(): string;
+    public function getIdentityProperty();
 }
