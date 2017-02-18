@@ -18,7 +18,7 @@ class UserCRUD extends User implements HasMapper
         return $this;
     }
 
-    public function getMapper(): MapperInterface
+    public function getMapper()
     {
         return $this->mapper;
     }
