@@ -4,7 +4,6 @@ namespace Solution10\Data\Tests\Database;
 
 use Solution10\Data\Database\Logger;
 use Solution10\Data\Tests\Stubs\MockStopwatchEvent;
-use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {

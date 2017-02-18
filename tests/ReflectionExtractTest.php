@@ -4,6 +4,8 @@ namespace Solution10\Data\Tests;
 
 use Solution10\Data\PHPUnit\TestCase;
 use Solution10\Data\ReflectionExtract;
+use Solution10\Data\Tests\Stubs\ReflectExtractData;
+use Solution10\Data\Tests\Stubs\ReflectExtractProperties;
 
 class ReflectionExtractTest extends TestCase
 {
@@ -17,17 +19,7 @@ class ReflectionExtractTest extends TestCase
 
     public function testPropertyOnlyExtract()
     {
-        $object = new class('Alex', 'London') {
-            protected $name;
-            protected $location;
-            protected $shhh = "it's a secret";
-
-            public function __construct($name, $location)
-            {
-                $this->name = $name;
-                $this->location = $location;
-            }
-        };
+        $object = new ReflectExtractProperties('Alex', 'London');
 
         $trait = $this->getTrait();
 
@@ -40,31 +32,7 @@ class ReflectionExtractTest extends TestCase
 
     public function testGetterOnlyExtract()
     {
-        $object = new class('Alex', 'London') {
-            protected $data = [];
-
-            public function __construct($name, $location)
-            {
-                $this->data['name'] = $name;
-                $this->data['location'] = $location;
-                $this->data['shhh'] = "it's a secret";
-            }
-
-            public function getName()
-            {
-                return $this->data['name'];
-            }
-
-            public function getLocation()
-            {
-                return $this->data['location'];
-            }
-
-            public function getSecret()
-            {
-                return $this->data['shhh'];
-            }
-        };
+        $object = new ReflectExtractData('Alex', 'London');
 
         $trait = $this->getTrait();
 

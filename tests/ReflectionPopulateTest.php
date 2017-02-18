@@ -4,6 +4,9 @@ namespace Solution10\Data\Tests;
 
 use Solution10\Data\PHPUnit\TestCase;
 use Solution10\Data\ReflectionPopulate;
+use Solution10\Data\Tests\Stubs\LoginCountEntity;
+use Solution10\Data\Tests\Stubs\MockEntityOnlyGetters;
+use Solution10\Data\Tests\Stubs\UserSpecialSet;
 
 class ReflectionPopulateTest extends TestCase
 {
@@ -17,20 +20,7 @@ class ReflectionPopulateTest extends TestCase
 
     protected function getObject()
     {
-        return (new class {
-            protected $id;
-            protected $name;
-
-            public function getId()
-            {
-                return $this->id;
-            }
-
-            public function getName()
-            {
-                return $this->name;
-            }
-        });
+        return new MockEntityOnlyGetters();
     }
 
     public function testPopulateKnownProperties()
@@ -64,20 +54,7 @@ class ReflectionPopulateTest extends TestCase
 
     public function testPopulateWithSetter()
     {
-        $object = new class {
-            private $data = [];
-
-            public function getName()
-            {
-                return $this->data['name'];
-            }
-
-            public function setName(string $name)
-            {
-                $this->data['name'] = 'Hello '.$name;
-                return $this;
-            }
-        };
+        $object = new UserSpecialSet();
 
         $trait = $this->getTrait();
         $object = $trait->populateWithReflection($object, ['name' => 'Alex']);
@@ -87,20 +64,7 @@ class ReflectionPopulateTest extends TestCase
 
     public function testPopulatePrefersSetterToProperty()
     {
-        $object = new class {
-            protected $name;
-
-            public function getName()
-            {
-                return $this->name;
-            }
-
-            public function setName(string $name)
-            {
-                $this->name = 'Hello '.$name;
-                return $this;
-            }
-        };
+        $object = new UserSpecialSet();
 
         $trait = $this->getTrait();
         $object = $trait->populateWithReflection($object, ['name' => 'Alex']);
@@ -110,14 +74,7 @@ class ReflectionPopulateTest extends TestCase
 
     public function testSnakeProperties()
     {
-        $object = new class {
-            protected $loginCount = 0;
-
-            public function getLoginCount()
-            {
-                return $this->loginCount;
-            }
-        };
+        $object = new LoginCountEntity();
 
         $trait = $this->getTrait();
         $object = $trait->populateWithReflection($object, ['login_count' => 27]);

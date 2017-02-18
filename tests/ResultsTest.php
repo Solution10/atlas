@@ -2,11 +2,12 @@
 
 namespace Solution10\Data\Tests;
 
-use Solution10\Data\HasMapper;
-use Solution10\Data\MapperInterface;
 use Solution10\Data\PHPUnit\TestCase;
 use Solution10\Data\ReflectionPopulate;
 use Solution10\Data\Results;
+use Solution10\Data\Tests\Stubs\MockUsersDatabaseMapper;
+use Solution10\Data\Tests\Stubs\User;
+use Solution10\Data\Tests\Stubs\UserWithMapper;
 
 class ResultsTest extends TestCase
 {
@@ -14,21 +15,7 @@ class ResultsTest extends TestCase
 
     protected function getModelInstance()
     {
-        return new class
-        {
-            protected $id;
-            protected $name;
-
-            public function getId()
-            {
-                return $this->id;
-            }
-
-            public function getName()
-            {
-                return $this->name;
-            }
-        };
+        return new User();
     }
 
     /* ----------- Countable Tests ------------- */
@@ -191,74 +178,8 @@ class ResultsTest extends TestCase
 
     public function testPopulateWithMapper()
     {
-        $m = new class implements HasMapper
-        {
-            protected $data = [];
-
-            public function getId()
-            {
-                return $this->data['id'];
-            }
-
-            public function setId($id)
-            {
-                $this->data['id'] = $id;
-                return $this;
-            }
-
-            public function getName()
-            {
-                return $this->data['name'];
-            }
-
-            public function setName($name)
-            {
-                $this->data['name'] = $name;
-                return $this;
-            }
-
-            public function getMapper(): MapperInterface
-            {
-                // We only care about load() in this example.
-                return new class implements MapperInterface
-                {
-                    public function save($model)
-                    {
-                    }
-
-                    public function create($model)
-                    {
-                    }
-
-                    public function update($model)
-                    {
-                    }
-
-                    public function delete($model)
-                    {
-                    }
-
-                    public function load($model, array $data)
-                    {
-                        $model->setName($data['name']);
-                        $model->setId($data['id']);
-                        return $model;
-                    }
-
-                    public function startQuery()
-                    {
-                    }
-
-                    public function fetchQuery($query): Results
-                    {
-                    }
-
-                    public function fetchQueryRaw($query)
-                    {
-                    }
-                };
-            }
-        };
+        $m = new UserWithMapper();
+        $m->setMapper(new MockUsersDatabaseMapper());
 
         $r = new Results($m, [
             ['id' => 1, 'name' => 'Alex'],

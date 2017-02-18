@@ -54,10 +54,7 @@ class MockDatabaseMapper implements MapperInterface
 
     public function fetchQuery($query)
     {
-        return new Results(new class {
-            public $id;
-            public $name;
-        }, $this->items);
+        return new Results(new SimpleEntity(), $this->items);
     }
 
     public function fetchQueryRaw($query)

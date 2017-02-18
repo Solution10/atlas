@@ -4,14 +4,13 @@ namespace Solution10\Data\Tests\Database;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Solution10\Data\Database\Logger;
-use Solution10\Data\HasMapper;
-use Solution10\Data\HasTimestamps;
-use Solution10\Data\MapperInterface;
 use Solution10\Data\PHPUnit\BasicDatabase;
 use Solution10\Data\PHPUnit\TestCase;
+use Solution10\Data\Tests\Stubs\MockEntity;
 use Solution10\Data\Tests\Stubs\MockUsersDatabaseMapper;
 use Solution10\Data\Tests\Stubs\User;
 use Solution10\Data\Tests\Stubs\UserCRUD;
+use Solution10\Data\Tests\Stubs\UserWithMapper;
 use Solution10\Data\Tests\Stubs\UserWithTimestamps;
 
 class DatabaseMapperTest extends TestCase
@@ -165,30 +164,14 @@ class DatabaseMapperTest extends TestCase
     public function testUpdateNoIdentifier()
     {
         $mapper = $this->getMapper();
-        $u = new class {
-            protected $name;
-
-            public function getName()
-            {
-                return $this->name;
-            }
-
-            public function setName($name)
-            {
-                $this->name = $name;
-                return $this;
-            }
-        };
+        $u = new MockEntity();
 
         $mapper->update($u);
     }
 
     public function testUpdateWithTimestamps()
     {
-        $u = new class extends User implements HasTimestamps
-        {
-            use \Solution10\Data\Parts\HasTimestamps;
-        };
+        $u = new UserWithTimestamps();
         $u->setName('Alex');
 
         $mapper = $this->getMapper();
@@ -226,22 +209,7 @@ class DatabaseMapperTest extends TestCase
      */
     public function testDeleteNoIdentifier()
     {
-        $u = new class implements HasTimestamps{
-            protected $name;
-
-            use \Solution10\Data\Parts\HasTimestamps;
-
-            public function getName()
-            {
-                return $this->name;
-            }
-
-            public function setName($name)
-            {
-                $this->name = $name;
-                return $this;
-            }
-        };
+        $u = new MockEntity();
 
         $mapper = $this->getMapper();
         $u->setName('Alex');
@@ -264,22 +232,7 @@ class DatabaseMapperTest extends TestCase
 
     public function testIsLoadedWithTimestamps()
     {
-        $u = new class implements HasTimestamps{
-            protected $name;
-
-            use \Solution10\Data\Parts\HasTimestamps;
-
-            public function getName()
-            {
-                return $this->name;
-            }
-
-            public function setName($name)
-            {
-                $this->name = $name;
-                return $this;
-            }
-        };
+        $u = new MockEntity();
         $u->setName('Alex');
 
         $mapper = $this->getMapper();
@@ -291,9 +244,9 @@ class DatabaseMapperTest extends TestCase
 
     public function testIsLoadedPlainObject()
     {
-        $u = new class {
-            protected $name;
-        };
+        $u = (object)[
+            'name' => null,
+        ];
 
         $mapper = $this->getMapper();
         $this->assertFalse($mapper->isLoaded($u));
@@ -320,21 +273,7 @@ class DatabaseMapperTest extends TestCase
         $this->conn->insert('users', ['name' => 'Alex']);
         $this->conn->insert('users', ['name' => 'Becky']);
 
-        $u = new class extends User implements HasMapper
-        {
-            protected $mapper;
-
-            public function setMapper(MapperInterface $mapper)
-            {
-                $this->mapper = $mapper;
-                return $this;
-            }
-
-            public function getMapper(): MapperInterface
-            {
-                return $this->mapper;
-            }
-        };
+        $u = new UserWithMapper();
 
         $mapper = $this->getMapper();
         $mapper->setModelInstance($u);
