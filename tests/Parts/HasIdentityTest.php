@@ -5,6 +5,7 @@ namespace Solution10\Data\Tests\Parts;
 use Solution10\Data\Parts\HasIdentity;
 use Solution10\Data\PHPUnit\TestCase;
 use Solution10\Data\ReflectionPopulate;
+use Solution10\Data\Tests\Stubs\MockHasIdentityWithProperty;
 
 class HasIdentityTest extends TestCase
 {
@@ -23,15 +24,7 @@ class HasIdentityTest extends TestCase
         $t = $this->getMockForTrait(HasIdentity::class);
         $this->assertEquals('id', $t->getIdentityProperty());
 
-        $t = new class
-        {
-            use HasIdentity;
-
-            public function getIdentityProperty(): string
-            {
-                return 'my_id';
-            }
-        };
+        $t = new MockHasIdentityWithProperty();
         $this->assertEquals('my_id', $t->getIdentityProperty());
     }
 }

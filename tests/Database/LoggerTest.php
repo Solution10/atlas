@@ -3,24 +3,14 @@
 namespace Solution10\Data\Tests\Database;
 
 use Solution10\Data\Database\Logger;
+use Solution10\Data\Tests\Stubs\MockStopwatchEvent;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {
     protected function getDummyStopwatchEvent($totalTime)
     {
-        $event = new class(0) extends StopwatchEvent
-        {
-            public $hardDuration;
-
-            public function getDuration()
-            {
-                if (isset($this->hardDuration)) {
-                    return $this->hardDuration;
-                }
-                return parent::getDuration();
-            }
-        };
+        $event = new MockStopwatchEvent(0);
         $event->hardDuration = $totalTime;
         return $event;
     }
