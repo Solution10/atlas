@@ -103,6 +103,8 @@ class Select extends \Solution10\SQL\Select
     {
         $this
             ->resetSelect()
+            ->resetLimit()
+            ->resetOffset()
             ->select(new Expression('COUNT(*) as aggr'));
 
         return $this->getMapper()->fetchQueryRaw($this)[0]['aggr'];
