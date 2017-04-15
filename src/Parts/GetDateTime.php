@@ -23,6 +23,10 @@ trait GetDateTime
      */
     protected function getDateTimeFrom($input)
     {
+        if ($input === null) {
+            return null;
+        }
+
         $return = $input;
         if ($input instanceof \DateTime === false) {
             if (is_integer($input)) {

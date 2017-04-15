@@ -51,6 +51,13 @@ class HasTimestampsTest extends TestCase
         $this->assertEquals('2016-12-06T06:47:27+00:00', $t->getCreated()->format('c'));
     }
 
+    public function testNullSetCreated()
+    {
+        $t = $this->getTrait();
+        $t->setCreated(null);
+        $this->assertNull($t->getCreated());
+    }
+
     public function testBasicSetGetUpdated()
     {
         $t = $this->getTrait();
@@ -78,5 +85,12 @@ class HasTimestampsTest extends TestCase
         $t->setUpdated($updated);
         $this->assertInstanceOf(\DateTime::class, $t->getUpdated());
         $this->assertEquals('2016-12-06T06:47:27+00:00', $t->getUpdated()->format('c'));
+    }
+
+    public function testNullSetUpdated()
+    {
+        $t = $this->getTrait();
+        $t->setCreated(null);
+        $this->assertNull($t->getCreated());
     }
 }
