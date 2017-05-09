@@ -7,6 +7,7 @@ use Solution10\Data\HasTimestamps;
 use Solution10\Data\MapperInterface;
 use Solution10\Data\ReflectionPopulate;
 use Solution10\Data\Results;
+use Solution10\Pipeline\Pipeline;
 
 /**
  * Class DatabaseMapper
@@ -22,6 +23,11 @@ abstract class DatabaseMapper implements MapperInterface
     use ReflectionPopulate;
 
     /**
+     * @var     Pipeline[]
+     */
+    private $pipelines = [];
+
+    /**
      * Returns the table name this mapper primarily operates on.
      *
      * @return  string
@@ -29,18 +35,21 @@ abstract class DatabaseMapper implements MapperInterface
     abstract public function getTableName();
 
     /**
-     * Returns the connection name this mapper works with.
-     *
-     * @return  string
-     */
-    abstract public function getConnectionName();
-
-    /**
      * Returns an instance of the main model this mapper operates on.
      *
      * @return  object
      */
     abstract public function getModelInstance();
+
+    /**
+     * Returns the connection name this mapper works with.
+     *
+     * @return  string
+     */
+    public function getConnectionName()
+    {
+        return 'default';
+    }
 
     /**
      * @return  \Solution10\Data\Database\Connection
@@ -96,22 +105,7 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function create($model)
     {
-        if ($model instanceof HasTimestamps) {
-            $model->setCreated(new \DateTime('now'));
-        }
-
-        $iid = $this->getConnection()->insert($this->getTableName(), $this->getCreateData($model));
-
-        if ($model instanceof HasIdentity) {
-            $ref = new \ReflectionClass($model);
-            $prop = $ref->getProperty($model->getIdentityProperty());
-            if ($prop) {
-                $prop->setAccessible(true);
-                $prop->setValue($model, $iid);
-            }
-        }
-
-        return $model;
+        return $this->getCreatePipeline()->run($model);
     }
 
     /**
@@ -145,17 +139,7 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function update($model)
     {
-        if ($model instanceof HasTimestamps) {
-            $model->setUpdated(new \DateTime('now'));
-        }
-
-        $this->getConnection()->update(
-            $this->getTableName(),
-            $this->getUpdateData($model),
-            $this->getUpdateCondition($model)
-        );
-
-        return $model;
+        return $this->getUpdatePipeline()->run($model);
     }
 
     /**
@@ -183,13 +167,7 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function delete($model)
     {
-        if ($this->isLoaded($model)) {
-            $this->getConnection()->delete(
-                $this->getTableName(),
-                $this->getDeleteCondition($model)
-            );
-        }
-        return $this;
+        return $this->getDeletePipeline()->run($model);
     }
 
     /**
@@ -201,7 +179,7 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function load($model, array $data)
     {
-        return $this->populateWithReflection($model, $data);
+        return $this->getLoadPipeline()->run($data, $model);
     }
 
     /**
@@ -228,8 +206,9 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function fetchQuery($query)
     {
-        $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
-        return new Results($this->getModelInstance(), $data, $this);
+        return $this
+            ->getFetchPipeline()
+            ->run($query);
     }
 
     /**
@@ -240,7 +219,178 @@ abstract class DatabaseMapper implements MapperInterface
      */
     public function fetchQueryRaw($query)
     {
-        $data = $this->getConnection()->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
-        return $data;
+        return $this
+            ->getFetchPipeline()
+            ->runWithout(['data.transform'], $query);
+    }
+
+    /* ------------------- Pipelines ---------------------- */
+
+    /**
+     * @return  Pipeline
+     */
+    final public function getFetchPipeline()
+    {
+        if (!array_key_exists('fetch', $this->pipelines)) {
+            $this->pipelines['fetch'] = $this->buildFetchPipeline();
+        }
+        return $this->pipelines['fetch'];
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    protected function buildFetchPipeline()
+    {
+        return (new Pipeline())
+            ->step('data.read', function (Select $query) {
+                return $this
+                    ->getConnection()
+                    ->fetchAll($query->sql(), $query->params(), $query->getCacheLength());
+            })
+            ->step('data.transform', function ($results) {
+                return new Results($this->getModelInstance(), $results, $this);
+            })
+            ->step('data.hydrate', function ($results) {
+                // This step does nothing by default, but you're encouraged to override it.
+                return $results;
+            })
+        ;
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    final public function getLoadPipeline()
+    {
+        if (!array_key_exists('load', $this->pipelines)) {
+            $this->pipelines['load'] = $this->buildLoadPipeline();
+        }
+        return $this->pipelines['load'];
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    protected function buildLoadPipeline()
+    {
+        return (new Pipeline())
+            ->step('data.populate', function ($data, $model) {
+                return $this->populateWithReflection($model, $data);
+            })
+            ->step('data.hydrate', function ($model) {
+                return $model;
+            })
+        ;
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    final public function getCreatePipeline()
+    {
+        if (!array_key_exists('create', $this->pipelines)) {
+            $this->pipelines['create'] = $this->buildCreatePipeline();
+        }
+        return $this->pipelines['create'];
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    protected function buildCreatePipeline()
+    {
+        return (new Pipeline())
+            ->step('data.timestamps', function ($model) {
+                // Handle timestamps:
+                if ($model instanceof HasTimestamps) {
+                    $model->setCreated(new \DateTime('now'));
+                }
+                return $model;
+            })
+            ->step('data.write', function ($model) {
+                // Perform the insert:
+                $iid = $this
+                    ->getConnection()
+                    ->insert($this->getTableName(), $this->getCreateData($model));
+
+                if ($model instanceof HasIdentity) {
+                    $ref = new \ReflectionClass($model);
+                    $prop = $ref->getProperty($model->getIdentityProperty());
+                    if ($prop) {
+                        $prop->setAccessible(true);
+                        $prop->setValue($model, $iid);
+                    }
+                }
+
+                return $model;
+            })
+        ;
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    final public function getUpdatePipeline()
+    {
+        if (!array_key_exists('update', $this->pipelines)) {
+            $this->pipelines['update'] = $this->buildUpdatePipeline();
+        }
+        return $this->pipelines['update'];
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    protected function buildUpdatePipeline()
+    {
+        return (new Pipeline())
+            ->step('data.timestamps', function ($model) {
+                // Handle timestamps:
+                if ($model instanceof HasTimestamps) {
+                    $model->setUpdated(new \DateTime('now'));
+                }
+                return $model;
+            })
+            ->step('data.write', function ($model) {
+                // Perform the update:
+                $this->getConnection()->update(
+                    $this->getTableName(),
+                    $this->getUpdateData($model),
+                    $this->getUpdateCondition($model)
+                );
+
+                return $model;
+            })
+        ;
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    final public function getDeletePipeline()
+    {
+        if (!array_key_exists('delete', $this->pipelines)) {
+            $this->pipelines['delete'] = $this->buildDeletePipeline();
+        }
+        return $this->pipelines['delete'];
+    }
+
+    /**
+     * @return  Pipeline
+     */
+    protected function buildDeletePipeline()
+    {
+        return (new Pipeline())
+            ->last('data.write', function ($model) {
+                if ($this->isLoaded($model)) {
+                    $this->getConnection()->delete(
+                        $this->getTableName(),
+                        $this->getDeleteCondition($model)
+                    );
+                }
+                return $model;
+            })
+        ;
     }
 }

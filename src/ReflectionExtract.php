@@ -2,6 +2,8 @@
 
 namespace Solution10\Data;
 
+use Solution10\Data\Util\Str;
+
 /**
  * Class ReflectionExtract
  *
@@ -14,8 +16,6 @@ namespace Solution10\Data;
  */
 trait ReflectionExtract
 {
-    use StringConverter;
-
     /**
      * Extracts properties from a given object. Will use getters for those
      * properties if available, otherwise will use reflection.
@@ -30,7 +30,7 @@ trait ReflectionExtract
 
         $ref = new \ReflectionClass($object);
         foreach ($properties as $prop) {
-            $methodName = $this->snakeToCamel($prop, 'get');
+            $methodName = Str::snakeToCamel($prop, 'get');
             if (method_exists($object, $methodName)) {
                 $data[$prop] = $object->$methodName();
             } elseif (property_exists($object, $prop)) {
@@ -40,6 +40,31 @@ trait ReflectionExtract
             }
         }
 
+        return $data;
+    }
+
+    /**
+     * Extracts all the protected properties from an object via Reflection.
+     * You probably don't want to use this for real. It'll use the getter for
+     * the property if it's available, otherwise, it'll use the property directly.
+     *
+     * @param   object  $object
+     * @return  array
+     */
+    public function extractAllWithReflection($object)
+    {
+        $data = [];
+        $ref = new \ReflectionClass($object);
+        $properties = $ref->getProperties(\ReflectionProperty::IS_PROTECTED | \ReflectionProperty::IS_PUBLIC);
+        foreach ($properties as $property) {
+            $methodName = Str::snakeToCamel($property->getName(), 'get');
+            if (method_exists($object, $methodName)) {
+                $data[$property->getName()] = $object->$methodName();
+            } else {
+                $property->setAccessible(true);
+                $data[$property->getName()] = $property->getValue($object);
+            }
+        }
         return $data;
     }
 }

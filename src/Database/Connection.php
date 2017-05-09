@@ -3,6 +3,7 @@
 namespace Solution10\Data\Database;
 
 use Doctrine\Common\Cache\Cache;
+use Solution10\Data\HasIdentity;
 use Solution10\SQL\Delete;
 use Solution10\SQL\Dialect\ANSI;
 use Solution10\SQL\Dialect\MySQL;
@@ -153,6 +154,8 @@ class Connection extends \PDO
     {
         $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
+        $data = $this->convertValues($data);
+
         $q = new Insert($this->dialect());
         $q->table($tableName);
         $q->values($data);
@@ -172,6 +175,8 @@ class Connection extends \PDO
     public function update($tableName, array $data, array $where)
     {
         $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $data = $this->convertValues($data);
 
         $q = new Update($this->dialect());
         $q
@@ -317,6 +322,28 @@ class Connection extends \PDO
         }
 
         return $stmt;
+    }
+
+    /**
+     * Converts things like DateTime's into a string and will use Identifiers
+     * if present to convert other models into IDs.
+     *
+     * @param   array   $data
+     * @return  array
+     */
+    protected function convertValues(array $data)
+    {
+        $converted = [];
+        foreach ($data as $k => $v) {
+            if ($v instanceof \DateTimeInterface) {
+                $converted[$k] = $v->format('c');
+            } elseif ($v instanceof HasIdentity) {
+                $converted[$k] = $v->getId();
+            } else {
+                $converted[$k] = $v;
+            }
+        }
+        return $converted;
     }
 
     /**

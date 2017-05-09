@@ -2,6 +2,9 @@
 
 namespace Solution10\Data;
 
+use React\Promise\Promise;
+use Solution10\Pipeline\Pipeline;
+
 /**
  * Interface MapperInterface
  *
@@ -61,6 +64,28 @@ interface MapperInterface
      * @return  object
      */
     public function load($model, array $data);
+
+    /* ------------ Chains ------------------ */
+
+//    /**
+//     * @return  Pipeline
+//     */
+//    public function getLoadPipeline();
+//
+//    /**
+//     * @return  Pipeline
+//     */
+//    public function getCreatePipeline();
+//
+//    /**
+//     * @return  Pipeline
+//     */
+//    public function getUpdatePipeline();
+//
+//    /**
+//     * @return  Pipeline
+//     */
+//    public function getDeletePipeline();
 
     /* ----------- Querying ----------- */
 

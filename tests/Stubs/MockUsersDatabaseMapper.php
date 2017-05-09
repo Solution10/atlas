@@ -3,19 +3,17 @@
 namespace Solution10\Data\Tests\Stubs;
 
 use Solution10\Data\Database\DatabaseMapper;
+use Solution10\Data\ReflectionExtract;
 
 class MockUsersDatabaseMapper extends DatabaseMapper
 {
+    use ReflectionExtract;
+
     protected $modelInstance;
 
     public function getTableName()
     {
         return 'users';
-    }
-
-    public function getConnectionName()
-    {
-        return 'default';
     }
 
     public function setModelInstance($model)
@@ -31,15 +29,11 @@ class MockUsersDatabaseMapper extends DatabaseMapper
 
     protected function getCreateData($model)
     {
-        return [
-            'name' => $model->getName()
-        ];
+        return $this->extractWithReflection($model, ['name']);
     }
 
     protected function getUpdateData($model)
     {
-        return [
-            'name' => $model->getName()
-        ];
+        return $this->extractWithReflection($model, ['name']);
     }
 }

@@ -6,6 +6,7 @@ use Solution10\Data\Database\Select;
 use Solution10\Data\MapperInterface;
 use Solution10\Data\ReflectionPopulate;
 use Solution10\Data\Results;
+use Solution10\Data\WorkflowChain;
 
 class MockDatabaseMapper implements MapperInterface
 {

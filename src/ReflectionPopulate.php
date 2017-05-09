@@ -2,10 +2,10 @@
 
 namespace Solution10\Data;
 
+use Solution10\Data\Util\Str;
+
 trait ReflectionPopulate
 {
-    use StringConverter;
-
     /**
      * @param   object  $object
      * @param   array   $data
@@ -15,8 +15,8 @@ trait ReflectionPopulate
     {
         $ref = new \ReflectionClass($object);
         foreach ($data as $k => $v) {
-            $setterName = $this->snakeToCamel($k, 'set');
-            $camelProperty = $this->snakeToCamel($k);
+            $setterName = Str::snakeToCamel($k, 'set');
+            $camelProperty = Str::snakeToCamel($k);
             if (method_exists($object, $setterName)) {
                 $object->$setterName($v);
             } elseif (property_exists($object, $k) || property_exists($object, $camelProperty)) {
